@@ -1,3 +1,4 @@
+
 """Day 4 data-access functions — AI Chat, Study, Career, Resume, Interview.
 
 All queries are scoped to the authenticated user (user_id filter).
@@ -117,7 +118,7 @@ def get_study_material_path(material_id: int, user_id: int) -> str | None:
 
 
 def save_study_result(material_id: int, user_id: int,
-                       result_type: str, content: str) -> int:
+                      result_type: str, content: str) -> int:
     db = get_db()
     return db.execute(
         "INSERT INTO study_results (material_id, user_id, result_type, content) "
@@ -207,6 +208,15 @@ def save_career_recommendation(user_id: int, career_title: str,
                                skill_gaps: str | None = None,
                                roadmap: str | None = None) -> int:
     db = get_db()
+
+    # Convert AI-generated lists/dictionaries to JSON strings
+    # before saving them into MySQL TEXT columns.
+    if isinstance(skill_gaps, (list, dict)):
+        skill_gaps = json.dumps(skill_gaps, ensure_ascii=False)
+
+    if isinstance(roadmap, (list, dict)):
+        roadmap = json.dumps(roadmap, ensure_ascii=False)
+
     return db.execute(
         "INSERT INTO career_recommendations "
         "(user_id, career_title, match_score, explanation, skill_gaps, roadmap) "
@@ -341,3 +351,4 @@ def get_interview_questions(session_id: int) -> list:
         "ORDER BY question_order",
         (session_id,), fetch=True,
     )
+
