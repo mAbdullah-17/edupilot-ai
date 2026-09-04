@@ -1,0 +1,36 @@
+# Environment & secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Uploads (keep directory, ignore contents)
+uploads/*
+!uploads/.gitkeep
+
+# Database files
+*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Verification screenshots
+verify_*.png
+
+# Qoder generated documentation
+.qoder/
+.streamlit/secrets.toml
